@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tencent.wxcloudrun.dao.UserInfoMapper">
+
+    <resultMap id="UserInfoMapper" type="com.tencent.wxcloudrun.model.UserInfo">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userWxHm" column="user_wx_hm"/>
+        <result property="userDeptName" column="user_dept_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userDate" column="user_date" javaType="java.time.LocalDateTime"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userPermission" column="user_permission"/>
+    </resultMap>
+
+    <select id="getUserInfo" resultMap="UserInfoMapper" parameterType="java.lang.String">
+        SELECT `user_id`, `user_name`, `user_wx_hm`, `user_dept_name`
+        , `user_phone`, `user_date`, `user_status`, `user_permission`
+        FROM user_info
+        WHERE user_wx_hm = #{userWxHm}
+    </select>
+
+    <delete id="clearUserInfo" parameterType="java.lang.String">
+        DELETE
+        FROM user_info
+        where user_wx_hm = #{userWxHm}
+        limit 1
+    </delete>
+
+    <update id="upsertUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+        INSERT INTO `user_info`( `user_id`,`user_name`, `user_wx_hm`, `user_dept_name`
+        , `user_phone`, `user_date`, `user_status`, `user_permission`)
+        VALUE(#{user_id},#{user_name}, #{user_wx_hm}, #{user_dept_name}, #{user_phone},
+         #{user_date}, #{user_status}, #{user_permission})
+
+    </update>
+
+</mapper>
