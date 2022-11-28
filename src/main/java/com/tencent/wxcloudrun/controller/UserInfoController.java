@@ -47,7 +47,7 @@ public class UserInfoController {
     }
 
     @PutMapping("/api/userinfo/update")
-    public ApiResponse add(@RequestBody UserInfo userInfo) {
+    public ApiResponse update(@RequestBody UserInfo userInfo) {
         //userInfoService.upsertUserInfo(userInfo);
         return ApiResponse.ok(userInfoService.updateUserInfo(userInfo));
     }
