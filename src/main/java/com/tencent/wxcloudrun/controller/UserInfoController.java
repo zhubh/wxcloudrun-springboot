@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,5 +46,15 @@ public class UserInfoController {
         return ApiResponse.ok(userInfoService.upsertUserInfo(userInfo));
     }
 
+    @GetMapping(value = "/api/userinfo/list")
+    ApiResponse getBookMarkByWxHM(@RequestBody UserInfo userInfo) {
+        List<UserInfo> userInfos = userInfoService.getUserinfoList(userInfo);
+        return ApiResponse.ok(userInfos);
+    }
+
+    @DeleteMapping("/api/userinfo/delet/{userId}")
+    public ApiResponse delet(@PathVariable("userId") String userId) {
+        return ApiResponse.ok(userInfoService.clearUserInfo(userId));
+    }
 
 }
