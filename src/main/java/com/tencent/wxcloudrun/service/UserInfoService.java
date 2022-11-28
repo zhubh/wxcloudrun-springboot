@@ -8,7 +8,7 @@ public interface UserInfoService {
 
     Optional<UserInfo> getUserInfo(String userWxHm);
 
-    void upsertUserInfo(UserInfo userInfo);
+    Integer upsertUserInfo(UserInfo userInfo);
 
-    void clearUserInfo(String userWxHm);
+    Integer clearUserInfo(String userWxHm);
 }
