@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tencent.wxcloudrun.dao.BookMarkMapper">
 
-    <resultMap id="UserInfoMapper" type="com.tencent.wxcloudrun.model.BookMark">
+    <resultMap id="BookMarkMapper" type="com.tencent.wxcloudrun.model.BookMark">
         <id property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="userWxHm" column="user_wx_hm"/>
