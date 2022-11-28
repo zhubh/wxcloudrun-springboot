@@ -23,7 +23,7 @@
     <delete id="clearUserInfo" parameterType="java.lang.String">
         DELETE
         FROM user_info
-        where user_id = #{userId}
+        where user_id= #{userId}
         limit 1
     </delete>
 
@@ -34,13 +34,13 @@
          sysdate(), #{userStatus}, #{userPermission})
 
     </insert>
-     <update id="updateUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+    <update id="updateUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
         update user_info
         <set>
-            <if test="userName != null and userName != ''">user_name = #{userName}, </if>
-            <if test="userDeptName != null and userDeptName != ''">user_dept_name = #{userDeptName}, </if>
-            <if test="userPhone != null">user_phone = #{userPhone}, </if>
-            <if test="userStatus != null and userStatus != ''">user_status = #{userStatus}, </if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="userDeptName != null and userDeptName != ''">user_dept_name = #{userDeptName},</if>
+            <if test="userPhone != null">user_phone = #{userPhone},</if>
+            <if test="userStatus != null and userStatus != ''">user_status = #{userStatus},</if>
             <if test="userPermission != null and userPermission != ''">user_permission = #{userPermission},</if>
             update_time = sysdate()
         </set>
@@ -57,6 +57,15 @@
         </if>
         <if test="userInfo.userStatus != null and userInfo.userStatus != ''">
             and user_status = #{userInfo.userStatus}
+        </if>
+        <if test="userInfo.userName != null and userInfo.userName != ''">
+            AND user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="userInfo.userPermission != null and userInfo.userPermission != ''">
+            and user_permission = #{userInfo.userPermission}
+        </if>
+        <if test="userInfo.userPhone != null and userInfo.userPhone != ''">
+            and user_phone = #{userInfo.userPhone}
         </if>
     </select>
 
