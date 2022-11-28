@@ -27,12 +27,37 @@
         limit 1
     </delete>
 
-    <update id="upsertUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+    <insert id="upsertUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
         INSERT INTO `user_info`( `user_id`,`user_name`, `user_wx_hm`, `user_dept_name`
         , `user_phone`, `user_date`, `user_status`, `user_permission`)
         VALUE(#{userId},#{userName}, #{userWxHm}, #{userDeptName}, #{userPhone},
          sysdate(), #{userStatus}, #{userPermission})
 
+    </insert>
+     <update id="updateUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+        update user_info
+        <set>
+            <if test="userName != null and userName != ''">user_name = #{userName}, </if>
+            <if test="userDeptName != null and userDeptName != ''">user_dept_name = #{userDeptName}, </if>
+            <if test="user_phone != null">user_phone = #{userPhone}, </if>
+            <if test="status != null and status != ''">user_status = #{userStatus}, </if>
+            <if test="userPermission != null and userPermission != ''">user_permission = #{userPermission},</if>
+            update_time = sysdate()
+        </set>
+        where user_id = #{userId}
     </update>
+
+    <select id="getUserinfoList" resultMap="UserInfoMapper" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+        SELECT `user_id`, `user_name`, `user_wx_hm`, `user_dept_name`
+        , `user_phone`, `user_date`, `user_status`, `user_permission`
+        FROM user_info
+        WHERE 1=1
+        <if test="userInfo.userDeptName != null and userInfo.userDeptName != ''">
+            and user_dept_name = #{userInfo.userDeptName}
+        </if>
+        <if test="userInfo.userStatus != null and userInfo.userStatus != ''">
+            and user_status = #{userInfo.userStatus}
+        </if>
+    </select>
 
 </mapper>
