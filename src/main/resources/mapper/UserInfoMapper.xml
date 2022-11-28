@@ -52,20 +52,20 @@
         , `user_phone`, `user_date`, `user_status`, `user_permission`
         FROM user_info
         WHERE 1=1
-        <if test="userInfo.userDeptName != null and userInfo.userDeptName != ''">
-            and user_dept_name = #{userInfo.userDeptName}
+        <if test="userDeptName != null and userDeptName != ''">
+            and user_dept_name = #{userDeptName}
         </if>
-        <if test="userInfo.userStatus != null and userInfo.userStatus != ''">
-            and user_status = #{userInfo.userStatus}
+        <if test="userStatus != null and userStatus != ''">
+            and user_status = #{userStatus}
         </if>
-        <if test="userInfo.userName != null and userInfo.userName != ''">
+        <if test="userName != null and userName != ''">
             AND user_name like concat('%', #{userName}, '%')
         </if>
-        <if test="userInfo.userPermission != null and userInfo.userPermission != ''">
-            and user_permission = #{userInfo.userPermission}
+        <if test="userPermission != null and userPermission != ''">
+            and user_permission = #{userPermission}
         </if>
-        <if test="userInfo.userPhone != null and userInfo.userPhone != ''">
-            and user_phone = #{userInfo.userPhone}
+        <if test="userPhone != null and userPhone != ''">
+            and user_phone = #{userPhone}
         </if>
     </select>
 
