@@ -23,7 +23,7 @@
     <delete id="clearUserInfo" parameterType="java.lang.String">
         DELETE
         FROM user_info
-        where user_wx_hm = #{userWxHm}
+        where user_id = #{userId}
         limit 1
     </delete>
 
