@@ -43,6 +43,10 @@ public class UserInfoController {
     @PostMapping("/api/userinfo/add")
     public ApiResponse add(@RequestBody UserInfo userInfo) {
         //userInfoService.upsertUserInfo(userInfo);
+        Optional<UserInfo> userInf = userInfoService.getUserInfo(userInfo.getUserWxHm());
+        if (userInf.isPresent()) {
+            return ApiResponse.error("此用户已存在");
+        }
         return ApiResponse.ok(userInfoService.upsertUserInfo(userInfo));
     }
 
@@ -53,7 +57,19 @@ public class UserInfoController {
     }
 
     @GetMapping(value = "/api/userinfo/list")
-    ApiResponse getBookMarkByWxHM(@RequestBody UserInfo userInfo) {
+    ApiResponse getBookMarkByWxHM(@RequestParam String userDeptName,
+                                  @RequestParam String userStatus,
+                                  @RequestParam String userName,
+                                  @RequestParam String userWxHm,
+                                  @RequestParam String userPhone,
+                                  @RequestParam String userPermission) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserDeptName(userDeptName);
+        userInfo.setUserStatus(userStatus);
+        userInfo.setUserName(userName);
+        userInfo.setUserWxHm(userWxHm);
+        userInfo.setUserPhone(userPhone);
+        userInfo.setUserPermission(userPermission);
         List<UserInfo> userInfos = userInfoService.getUserinfoList(userInfo);
         return ApiResponse.ok(userInfos);
     }
