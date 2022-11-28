@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -19,17 +20,18 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public Optional<UserInfo> getUserInfo(String userWxHm) {
-        return  Optional.ofNullable(userInfoMapper.getUserInfo(userWxHm));
+        return Optional.ofNullable(userInfoMapper.getUserInfo(userWxHm));
     }
 
 
     @Override
-    public void upsertUserInfo(UserInfo userInfo) {
-      userInfoMapper.upsertUserInfo(userInfo);
+    public Integer upsertUserInfo(UserInfo userInfo) {
+        userInfo.setUserId(UUID.randomUUID().toString());
+        return userInfoMapper.upsertUserInfo(userInfo);
     }
 
     @Override
-    public void clearUserInfo(String userWxHm) {
-      userInfoMapper.clearUserInfo(userWxHm);
+    public Integer clearUserInfo(String userWxHm) {
+        return userInfoMapper.clearUserInfo(userWxHm);
     }
 }
