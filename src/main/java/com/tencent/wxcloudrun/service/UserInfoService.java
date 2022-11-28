@@ -16,5 +16,5 @@ public interface UserInfoService {
 
     Integer upsertUserInfo(UserInfo userInfo);
 
-    Integer clearUserInfo(String userWxHm);
+    Integer clearUserInfo(String userId);
 }
