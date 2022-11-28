@@ -6,6 +6,7 @@ import com.tencent.wxcloudrun.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,4 +35,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     public Integer clearUserInfo(String userWxHm) {
         return userInfoMapper.clearUserInfo(userWxHm);
     }
+
+    @Override
+    public List<UserInfo> getUserinfoList(UserInfo userInfo) {
+        return userInfoMapper.getUserinfoList(userInfo);
+    }
+
+    @Override
+    public Integer updateUserInfo(UserInfo userInfo) {
+        return userInfoMapper.updateUserInfo(userInfo);
+    }
+
 }
