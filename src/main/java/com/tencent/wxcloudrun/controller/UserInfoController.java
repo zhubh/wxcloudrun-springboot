@@ -57,12 +57,12 @@ public class UserInfoController {
     }
 
     @GetMapping(value = "/api/userinfo/list")
-    ApiResponse getBookMarkByWxHM(@RequestParam String userDeptName,
-                                  @RequestParam String userStatus,
-                                  @RequestParam String userName,
-                                  @RequestParam String userWxHm,
-                                  @RequestParam String userPhone,
-                                  @RequestParam String userPermission) {
+    ApiResponse getBookMarkByWxHM(@RequestParam(value = "userDeptName", required = false) String userDeptName,
+                                  @RequestParam(value = "userStatus", required = false) String userStatus,
+                                  @RequestParam(value = "userName", required = false) String userName,
+                                  @RequestParam(value = "userWxHm", required = false) String userWxHm,
+                                  @RequestParam(value = "userPhone", required = false) String userPhone,
+                                  @RequestParam(value = "userPermission", required = false) String userPermission) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserDeptName(userDeptName);
         userInfo.setUserStatus(userStatus);
