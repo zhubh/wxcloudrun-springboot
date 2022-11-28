@@ -18,5 +18,5 @@ public interface UserInfoMapper {
 
     Integer upsertUserInfo(UserInfo userInfo);
 
-    Integer clearUserInfo(@Param("userWxHm") String userWxHm);
+    Integer clearUserInfo(@Param("userId") String userId);
 }
