@@ -33,7 +33,7 @@
         limit 1
     </delete>
 
-    <update id="upsertBookMark" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+    <update id="upsertBookMark" parameterType="com.tencent.wxcloudrun.model.BookMark">
         INSERT INTO `book_mark`( `user_id`,`user_name`, `user_wx_hm`, `book_id`
         , `booke_mark_date`, `book_mark_name`, `book_mark_content`)
         VALUE(#{userId},#{userName}, #{userWxHm}, #{bookId}, sysdate(),
