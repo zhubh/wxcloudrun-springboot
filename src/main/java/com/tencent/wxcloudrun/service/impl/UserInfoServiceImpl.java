@@ -32,8 +32,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public Integer clearUserInfo(String userWxHm) {
-        return userInfoMapper.clearUserInfo(userWxHm);
+    public Integer clearUserInfo(String userId) {
+        return userInfoMapper.clearUserInfo(userId);
     }
 
     @Override
