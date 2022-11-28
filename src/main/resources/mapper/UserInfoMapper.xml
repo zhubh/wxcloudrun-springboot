@@ -27,7 +27,7 @@
         limit 1
     </delete>
 
-   <update id="upsertUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+    <update id="upsertUserInfo" parameterType="com.tencent.wxcloudrun.model.UserInfo">
         INSERT INTO `user_info`( `user_id`,`user_name`, `user_wx_hm`, `user_dept_name`
         , `user_phone`, `user_date`, `user_status`, `user_permission`)
         VALUE(#{userId},#{userName}, #{userWxHm}, #{userDeptName}, #{userPhone},
