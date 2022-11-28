@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tencent.wxcloudrun.dao.BookMarkMapper">
+
+    <resultMap id="UserInfoMapper" type="com.tencent.wxcloudrun.model.BookMark">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userWxHm" column="user_wx_hm"/>
+        <result property="bookId" column="book_id"/>
+        <result property="bookmarkDate" column="booke_mark_date" javaType="java.time.LocalDateTime"/>
+        <result property="bookMarkName" column="book_mark_name"/>
+        <result property="bookMarkContent" column="book_mark_content"/>
+    </resultMap>
+
+    <select id="getBookMarkByWxHM" resultMap="BookMarkMapper" parameterType="java.lang.String">
+        SELECT `user_id`, `user_name`, `user_wx_hm`, `book_id`
+        , `booke_mark_date`, `book_mark_name`, `book_mark_content`
+        FROM book_mark
+        WHERE user_wx_hm = #{userWxHm}
+    </select>
+
+    <select id="getBookMark" resultMap="UserInfoMapper" parameterType="java.lang.String">
+        SELECT `user_id`, `user_name`, `user_wx_hm`, `book_id`
+        , `booke_mark_date`, `book_mark_name`, `book_mark_content`
+        FROM book_mark
+        WHERE book_id = #{bookId}
+    </select>
+
+    <delete id="clearBookMark" parameterType="java.lang.String">
+        DELETE
+        FROM book_mark
+        where book_id= #{bookId}
+        limit 1
+    </delete>
+
+    <update id="upsertBookMark" parameterType="com.tencent.wxcloudrun.model.UserInfo">
+        INSERT INTO `book_mark`( `user_id`,`user_name`, `user_wx_hm`, `book_id`
+        , `booke_mark_date`, `book_mark_name`, `book_mark_content`)
+        VALUE(#{userId},#{userName}, #{userWxHm}, #{bookId}, sysdate(),
+         #{bookMarkName}, #{bookMarkContent})
+    </update>
+
+
+</mapper>
