@@ -40,7 +40,7 @@
             <if test="userName != null and userName != ''">user_name = #{userName}, </if>
             <if test="userDeptName != null and userDeptName != ''">user_dept_name = #{userDeptName}, </if>
             <if test="userPhone != null">user_phone = #{userPhone}, </if>
-            <if test="status != null and status != ''">user_status = #{userStatus}, </if>
+            <if test="userStatus != null and userStatus != ''">user_status = #{userStatus}, </if>
             <if test="userPermission != null and userPermission != ''">user_permission = #{userPermission},</if>
             update_time = sysdate()
         </set>
