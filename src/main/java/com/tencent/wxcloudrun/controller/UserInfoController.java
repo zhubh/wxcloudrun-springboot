@@ -46,6 +46,11 @@ public class UserInfoController {
         return ApiResponse.ok(userInfoService.upsertUserInfo(userInfo));
     }
 
+    @PutMapping("/api/userinfo/update")
+    public ApiResponse add(@RequestBody UserInfo userInfo) {
+        //userInfoService.upsertUserInfo(userInfo);
+        return ApiResponse.ok(userInfoService.updateUserInfo(userInfo));
+    }
     @GetMapping(value = "/api/userinfo/list")
     ApiResponse getBookMarkByWxHM(@RequestBody UserInfo userInfo) {
         List<UserInfo> userInfos = userInfoService.getUserinfoList(userInfo);
