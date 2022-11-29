@@ -13,5 +13,33 @@ spring:
       suffix: .html
       prefix: /
 
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: DEBUG
+    com:
+      tencent:
+        wxcloudrun:
+          dao: debug
+  file:
+    name: D://log.log
+
+# mybatis相关配置
 mybatis:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
   mapper-locations: classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: com.xx.**.domain
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    # 如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    # call-setters-on-nulls: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    # 解决oracle更新数据为null时无法转换报错，mysql不会出现此情况
+    jdbc-type-for-null: 'null'
+    # 返回类型为Map,显示null对应的字段
+    call-setters-on-nulls: true
