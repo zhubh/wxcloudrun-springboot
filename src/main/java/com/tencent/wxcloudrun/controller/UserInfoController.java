@@ -1,5 +1,7 @@
 package com.tencent.wxcloudrun.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.model.UserInfo;
 import com.tencent.wxcloudrun.service.UserInfoService;
@@ -57,12 +59,12 @@ public class UserInfoController {
     }
 
     @GetMapping(value = "/api/userinfo/list")
-    ApiResponse getBookMarkByWxHM(@RequestParam(value = "userDeptName", required = false) String userDeptName,
-                                  @RequestParam(value = "userStatus", required = false) String userStatus,
-                                  @RequestParam(value = "userName", required = false) String userName,
-                                  @RequestParam(value = "userWxHm", required = false) String userWxHm,
-                                  @RequestParam(value = "userPhone", required = false) String userPhone,
-                                  @RequestParam(value = "userPermission", required = false) String userPermission) {
+    ApiResponse getUserInfoList(@RequestParam(value = "userDeptName", required = false) String userDeptName,
+                                @RequestParam(value = "userStatus", required = false) String userStatus,
+                                @RequestParam(value = "userName", required = false) String userName,
+                                @RequestParam(value = "userWxHm", required = false) String userWxHm,
+                                @RequestParam(value = "userPhone", required = false) String userPhone,
+                                @RequestParam(value = "userPermission", required = false) String userPermission) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserDeptName(userDeptName);
         userInfo.setUserStatus(userStatus);
@@ -70,8 +72,37 @@ public class UserInfoController {
         userInfo.setUserWxHm(userWxHm);
         userInfo.setUserPhone(userPhone);
         userInfo.setUserPermission(userPermission);
+
+        PageHelper.startPage(1, 2);
         List<UserInfo> userInfos = userInfoService.getUserinfoList(userInfo);
-        return ApiResponse.ok(userInfos);
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfos);
+        PageHelper.clearPage();
+        return ApiResponse.ok(pageInfo);
+    }
+
+    @PostMapping(value = "/api/userinfo/listpage")
+    ApiResponse getUserPage(@RequestParam(value = "userDeptName", required = false) String userDeptName,
+                            @RequestParam(value = "userStatus", required = false) String userStatus,
+                            @RequestParam(value = "userName", required = false) String userName,
+                            @RequestParam(value = "userWxHm", required = false) String userWxHm,
+                            @RequestParam(value = "userPhone", required = false) String userPhone,
+                            @RequestParam(value = "userPermission", required = false) String userPermission,
+                            @RequestParam(value = "pageNum", required = true) int pageNum,
+                            @RequestParam(value = "pageSize", required = true) int pageSize
+    ) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserDeptName(userDeptName);
+        userInfo.setUserStatus(userStatus);
+        userInfo.setUserName(userName);
+        userInfo.setUserWxHm(userWxHm);
+        userInfo.setUserPhone(userPhone);
+        userInfo.setUserPermission(userPermission);
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<UserInfo> userInfos = userInfoService.getUserinfoList(userInfo);
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfos);
+        PageHelper.clearPage();
+        return ApiResponse.ok(pageInfo);
     }
 
     @DeleteMapping("/api/userinfo/delet/{userId}")
