@@ -24,4 +24,7 @@ public class UserInfo implements Serializable {
 
     private String userPermission;
 
+    private String pwd;
+
+
 }
