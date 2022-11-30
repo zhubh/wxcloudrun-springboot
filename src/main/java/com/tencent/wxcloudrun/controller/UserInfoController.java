@@ -30,9 +30,38 @@ public class UserInfoController {
 
 
     /**
-     * 获取当前计数
-     *
-     * @return API response json
+     * 登录
+     */
+    @GetMapping(value = "/api/userinfo/login")
+    ApiResponse login(@RequestParam(value = "userWxHm", required = true) String userWxHm,
+                      @RequestParam(value = "pwd", required = true) String pwd) {
+        Optional<UserInfo> userInfo = userInfoService.getUserInfo(userWxHm);
+        if (userInfo.isPresent()) {
+            String dbpwd = userInfo.get().getPwd();
+            if (pwd.equals(dbpwd)) {
+                return ApiResponse.ok(userInfo);
+            }
+            return ApiResponse.error("用户名或密码错误");
+        } else {
+            return ApiResponse.error("用户不存在");
+        }
+    }
+
+    /**
+     * 注册
+     */
+    @PostMapping(value = "/api/userinfo/register")
+    ApiResponse register(@RequestBody UserInfo userInfo) {
+        Optional<UserInfo> userdb = userInfoService.getUserInfo(userInfo.getUserWxHm());
+        if (userdb.isPresent()) {
+            userInfo.setUserId(userdb.get().getUserId());
+            return ApiResponse.ok(userInfoService.updateUserinfo(userInfo));
+        }
+        return ApiResponse.error("请联系管理员先授权");
+    }
+
+    /**
+     * 根据用户微信账号获取用户信息
      */
     @GetMapping(value = "/api/userinfo/{userWxHm}")
     ApiResponse get(@PathVariable("userWxHm") String userWxHm) {
@@ -41,7 +70,9 @@ public class UserInfoController {
         return ApiResponse.ok(userInfo);
     }
 
-
+    /**
+     * 添加用户信息
+     */
     @PostMapping("/api/userinfo/add")
     public ApiResponse add(@RequestBody UserInfo userInfo) {
         //userInfoService.upsertUserInfo(userInfo);
@@ -52,12 +83,18 @@ public class UserInfoController {
         return ApiResponse.ok(userInfoService.upsertUserInfo(userInfo));
     }
 
+    /**
+     * 更新用户信息
+     */
     @PutMapping("/api/userinfo/update")
     public ApiResponse update(@RequestBody UserInfo userInfo) {
         Integer ss = userInfoService.updateUserinfo(userInfo);
         return ApiResponse.ok(ss);
     }
 
+    /***
+     *
+     */
     @GetMapping(value = "/api/userinfo/list")
     ApiResponse getUserInfoList(@RequestParam(value = "userDeptName", required = false) String userDeptName,
                                 @RequestParam(value = "userStatus", required = false) String userStatus,
@@ -72,12 +109,8 @@ public class UserInfoController {
         userInfo.setUserWxHm(userWxHm);
         userInfo.setUserPhone(userPhone);
         userInfo.setUserPermission(userPermission);
-
-        PageHelper.startPage(1, 2);
         List<UserInfo> userInfos = userInfoService.getUserinfoList(userInfo);
-        PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfos);
-        PageHelper.clearPage();
-        return ApiResponse.ok(pageInfo);
+        return ApiResponse.ok(userInfos);
     }
 
     @PostMapping(value = "/api/userinfo/listpage")
