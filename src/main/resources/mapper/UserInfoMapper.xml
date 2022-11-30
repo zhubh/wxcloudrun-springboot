@@ -11,11 +11,12 @@
         <result property="userDate" column="user_date" javaType="java.time.LocalDateTime"/>
         <result property="userStatus" column="user_status"/>
         <result property="userPermission" column="user_permission"/>
+        <result property="pwd" column="pwd"/>
     </resultMap>
 
     <select id="getUserInfo" resultMap="UserInfoMapper" parameterType="java.lang.String">
         SELECT `user_id`, `user_name`, `user_wx_hm`, `user_dept_name`
-        , `user_phone`, `user_date`, `user_status`, `user_permission`
+        , `user_phone`, `user_date`, `user_status`, `user_permission`, `pwd`
         FROM user_info
         WHERE user_wx_hm = #{userWxHm}
     </select>
@@ -42,6 +43,7 @@
             <if test="userPhone != null">user_phone = #{userPhone},</if>
             <if test="userStatus != null and userStatus != ''">user_status = #{userStatus},</if>
             <if test="userPermission != null and userPermission != ''">user_permission = #{userPermission},</if>
+            <if test="pwd != null and pwd != ''">pwd = #{pwd},</if>
             update_time = sysdate()
         </set>
         where user_id = #{userId}
