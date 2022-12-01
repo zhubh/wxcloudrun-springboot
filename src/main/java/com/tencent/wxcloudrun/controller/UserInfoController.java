@@ -48,6 +48,27 @@ public class UserInfoController {
     }
 
     /**
+     * 登录
+     */
+    @GetMapping(value = "/api/userinfo/updatePwd")
+    ApiResponse updatePwd(@RequestParam(value = "userWxHm", required = true) String userWxHm,
+                          @RequestParam(value = "pwd", required = true) String pwd,
+                          @RequestParam(value = "oldpwd", required = true) String oldpwd) {
+        Optional<UserInfo> userInfo = userInfoService.getUserInfo(userWxHm);
+        if (userInfo.isPresent()) {
+            UserInfo dbUserInfo = userInfo.get();
+            String dbpwd = dbUserInfo.getPwd();
+            if (!oldpwd.equals(dbpwd)) {
+                return ApiResponse.error("旧密码错误！");
+            }
+            dbUserInfo.setPwd(pwd);
+            return ApiResponse.ok(userInfoService.updateUserinfo(dbUserInfo));
+        } else {
+            return ApiResponse.error("用户不存在");
+        }
+    }
+
+    /**
      * 注册
      */
     @PostMapping(value = "/api/userinfo/register")
