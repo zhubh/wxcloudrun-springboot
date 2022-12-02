@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * counter控制器
+ * UserInfo控制器
  */
 @RestController
 
 public class UserInfoController {
+    private String pwdPattern = "(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$";
 
     final UserInfoService userInfoService;
     final Logger logger;
@@ -54,6 +55,9 @@ public class UserInfoController {
     ApiResponse updatePwd(@RequestParam(value = "userWxHm", required = true) String userWxHm,
                           @RequestParam(value = "pwd", required = true) String pwd,
                           @RequestParam(value = "oldpwd", required = true) String oldpwd) {
+        if (pwd.matches(pwdPattern)) {
+            return ApiResponse.error("您输入的密码不符合要求，须同时包含数字、大小写字母，且至少六位！");
+        }
         Optional<UserInfo> userInfo = userInfoService.getUserInfo(userWxHm);
         if (userInfo.isPresent()) {
             UserInfo dbUserInfo = userInfo.get();
@@ -76,6 +80,9 @@ public class UserInfoController {
         Optional<UserInfo> userdb = userInfoService.getUserInfo(userInfo.getUserWxHm());
         if (userdb.isPresent()) {
             userInfo.setUserId(userdb.get().getUserId());
+            if (userInfo.getPwd().matches(pwdPattern)) {
+                return ApiResponse.error("您输入的密码不符合要求，须同时包含数字、大小写字母，且至少六位！");
+            }
             return ApiResponse.ok(userInfoService.updateUserinfo(userInfo));
         }
         return ApiResponse.error("请联系管理员先授权");
